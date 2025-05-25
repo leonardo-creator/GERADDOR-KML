@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #3700ff;
+  --primary-hover: #42eedc;
+  --background: #ffffff;
+  --text: #110043;
+  --border: #d4d4d8;
+  --success: #a2ff00;
+  --error: #ff3f19;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
