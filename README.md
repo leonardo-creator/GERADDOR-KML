@@ -25,8 +25,10 @@
 
 - 🎯 **Interface intuitiva** - Design moderno e responsivo com Tailwind CSS
 - 📊 **Visualização em tempo real** - Veja seus dados organizados em uma tabela antes de gerar o KML
-- 🗂️ **Processamento de dados** - Suporte para dados tabulares com nome, descrição, latitude e longitude
+- 🗂️ **Entrada de dados flexível** - Suporte para entrada manual via textarea ou upload de arquivos Excel (.xlsx)
 - 📁 **Geração automática** - Crie arquivos KML prontos para uso no Google Earth ou outras aplicações GIS
+- 📈 **Suporte a Excel** - Importe dados diretamente de planilhas Excel com estrutura personalizável
+- 🔄 **Dados enriquecidos** - Suporte a informações adicionais como status, tamanho de arquivo, tipo, data e previsão
 - 🌙 **Tema claro/escuro** - Interface adaptável com suporte a temas
 - ⚡ **Performance otimizada** - Construído com Next.js 15 e React 19
 - 🎨 **UI Components** - Biblioteca completa de componentes com Radix UI
@@ -93,35 +95,59 @@ Abra [http://localhost:3000](http://localhost:3000) no seu navegador
 
 ## 💡 Como Usar
 
-### 1. Prepare seus dados
-Organize seus dados no formato de colunas separadas por TAB:
+### Método 1: Entrada Manual
+1. **Prepare seus dados** no formato de colunas separadas por TAB:
+```
+Nome    Descrição    Latitude    Longitude
+Ponto1  Descrição1   -11.7090    -49.0530
+Ponto2  Descrição2   -11.7218    -49.0934
+```
+
+2. **Cole os dados** na área de texto da aplicação
+3. **Visualize** a prévia dos dados na tabela
+4. **Clique em "Gerar e Baixar KML"** para criar o arquivo
+
+### Método 2: Upload de Excel (.xlsx)
+1. **Prepare sua planilha Excel** com as seguintes colunas:
+   - **Obrigatórias**: `name` (ou `nome`), `Latitude`, `Longitude`
+   - **Opcionais**: `status`, `description`, `fileSize`, `fileType`, `date`, `predictionDate`
+
+2. **Exemplo de estrutura**:
+   | name         | status   | description | Latitude          | Longitude         | date              |
+   |--------------|----------|-------------|-------------------|-------------------|-------------------|
+   | IMG_1661.JPG | Pendente | hjkhjk      | -12.0394694444444 | -48.5382805555555 | 24/05/2025, 17:31 |
+   | IMG_1663.JPG | Pendente | hjkhjk      | -12.0394638888889 | -48.5380861111111 | 24/05/2025, 17:31 |
+
+3. **Faça upload** do arquivo usando o botão "Upload"
+4. **Baixe um arquivo de exemplo** clicando em "Baixar Exemplo" se necessário
+5. **Visualize** os dados importados na tabela
+6. **Gere o KML** clicando em "Gerar e Baixar KML"
+
+### 📋 Formato dos Dados
+
+#### Entrada Manual (TAB-separated)
 ```
 Nome    Descrição    Latitude    Longitude
 Ponto 1    Descrição do ponto 1    -23.5505    -46.6333
 Ponto 2    Descrição do ponto 2    -22.9068    -43.1729
 ```
 
-### 2. Cole os dados
-- Cole seus dados na área de texto principal
-- A tabela de visualização será atualizada automaticamente
+#### Planilha Excel (.xlsx)
+| Coluna | Obrigatória | Descrição | Exemplo |
+|--------|-------------|-----------|---------|
+| **name** / **nome** | ✅ | Nome do ponto | "IMG_1661.JPG" |
+| **Latitude** / **latitude** | ✅ | Coordenada de latitude | -12.0394694444444 |
+| **Longitude** / **longitude** | ✅ | Coordenada de longitude | -48.5382805555555 |
+| **description** / **descricao** | ❌ | Descrição detalhada | "Descrição do ponto" |
+| **status** | ❌ | Status atual | "Pendente" |
+| **fileSize** | ❌ | Tamanho do arquivo | "5470.95 KB" |
+| **fileType** | ❌ | Tipo do arquivo | "image/jpeg" |
+| **date** | ❌ | Data de criação | "24/05/2025, 17:31:47" |
+| **predictionDate** | ❌ | Data de previsão | "2025-06-10" |
 
-### 3. Gere o KML
-- Clique no botão "Gerar KML"
-- O arquivo será baixado automaticamente
-- Abra o arquivo no Google Earth ou sua aplicação GIS preferida
-
-### 📋 Formato dos Dados
-
-O sistema espera dados no seguinte formato:
-
-| Coluna | Descrição | Exemplo |
-|--------|-----------|---------|
-| **Nome** | Nome do ponto | "Escritório Central" |
-| **Descrição** | Descrição detalhada | "Sede da empresa" |
-| **Latitude** | Coordenada de latitude | "-23.5505" |
-| **Longitude** | Coordenada de longitude | "-46.6333" |
-
-> ⚠️ **Importante**: As colunas devem estar separadas por TAB (não espaços)
+> ⚠️ **Importante**: 
+> - Para entrada manual: As colunas devem estar separadas por TAB (não espaços)
+> - Para Excel: O sistema aceita variações nos nomes das colunas (ex: name/Name/nome/Nome)
 
 ## 🏗️ Estrutura do Projeto
 
@@ -200,6 +226,26 @@ npm run build    # Gera a build de produção
 npm run start    # Inicia o servidor de produção
 npm run lint     # Executa o linting do código
 ```
+
+## 🛠️ Tecnologias
+
+### Core
+- **Next.js 15.2.4** - Framework React para produção
+- **React 19** - Biblioteca para interfaces de usuário
+- **TypeScript 5** - JavaScript com tipagem estática
+
+### UI & Styling
+- **Tailwind CSS 3.4.17** - Framework CSS utilitário
+- **Radix UI** - Componentes primitivos acessíveis
+- **Lucide React** - Ícones SVG
+
+### Data Processing
+- **xlsx** - Biblioteca para leitura e escrita de arquivos Excel
+- **@types/xlsx** - Tipagens TypeScript para xlsx
+
+### Tools
+- **ESLint** - Linting e formatação de código
+- **PostCSS** - Processamento de CSS
 
 ## 🐛 Problemas Conhecidos
 

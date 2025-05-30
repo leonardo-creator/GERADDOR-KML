@@ -1,12 +1,14 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { parseData, generateKML } from "@/lib/kml-utils"
 import DataTable from "@/components/data-table"
+import ExcelUpload from "@/components/excel-upload"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
 
 export default function KmlGenerator() {
@@ -22,6 +24,17 @@ export default function KmlGenerator() {
       setParsedData([])
     }
   }, [inputData])
+
+  const handleExcelDataParsed = (data: any[]) => {
+    setParsedData(data)
+    // Limpar a textarea quando dados do Excel são carregados
+    setInputData("")
+    setAlert({
+      type: "success",
+      message: `${data.length} pontos carregados do arquivo Excel com sucesso!`,
+    })
+    setTimeout(() => setAlert(null), 3000)
+  }
 
   const handleGenerateKML = () => {
     if (parsedData.length > 0) {
@@ -39,9 +52,53 @@ export default function KmlGenerator() {
       setTimeout(() => setAlert(null), 3000)
     }
   }
-
   return (
     <div className="space-y-6">
+      {/* Início Rápido */}
+      <Card className="border-[#3700ff] bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardHeader>
+          <CardTitle className="text-[#110043] flex items-center gap-2">
+            <CheckCircle2 className="h-5 w-5 text-[#3700ff]" />
+            🚀 Início Rápido - Como usar em 3 passos:
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid md:grid-cols-3 gap-4">
+            <div className="text-center p-4 bg-white rounded-lg border border-[#3700ff]/20">
+              <div className="w-8 h-8 bg-[#3700ff] text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">1</div>
+              <h4 className="font-semibold text-[#110043] mb-2">Escolha o Método</h4>
+              <p className="text-sm text-[#110043]/70">
+                Use <strong>Upload Excel</strong> para muitos pontos ou <strong>Entrada Manual</strong> para poucos
+              </p>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg border border-[#3700ff]/20">
+              <div className="w-8 h-8 bg-[#3700ff] text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">2</div>
+              <h4 className="font-semibold text-[#110043] mb-2">Adicione os Dados</h4>
+              <p className="text-sm text-[#110043]/70">
+                Faça upload do Excel ou digite as coordenadas na caixa de texto
+              </p>
+            </div>
+            <div className="text-center p-4 bg-white rounded-lg border border-[#3700ff]/20">
+              <div className="w-8 h-8 bg-[#3700ff] text-white rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-bold">3</div>
+              <h4 className="font-semibold text-[#110043] mb-2">Gere o KML</h4>
+              <p className="text-sm text-[#110043]/70">
+                Clique em "Gerar KML" e seu arquivo será baixado automaticamente
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 text-center">
+            <p className="text-sm text-[#110043]/60 mb-3">
+              Primeira vez usando? Não sabe por onde começar?
+            </p>
+            <Link href="/ajuda">
+              <Button variant="outline" className="border-[#3700ff] text-[#3700ff] hover:bg-[#3700ff] hover:text-white">
+                📖 Ver Guia Completo
+              </Button>
+            </Link>
+          </div>
+        </CardContent>
+      </Card>
+
       {alert && (
         <Alert
           className={`${
@@ -56,8 +113,9 @@ export default function KmlGenerator() {
           <AlertDescription className={`${alert.type === "success" ? "text-[#110043]" : "text-[#110043]"}`}>
             {alert.message}
           </AlertDescription>
-        </Alert>
-      )}
+        </Alert>      )}
+
+      <ExcelUpload onDataParsed={handleExcelDataParsed} />
 
       <Card>
         <CardHeader>
@@ -78,7 +136,7 @@ export default function KmlGenerator() {
           <div className="mt-4">
             <Button
               onClick={handleGenerateKML}
-              className="bg-[#3700ff] hover:bg-[#42eedc] hover:text-[#110043] transition-colors"
+              className="bg-[#3700ff] text-white hover:bg-[#42eedc] hover:text-[#110043] transition-colors"
             >
               Gerar e Baixar KML
             </Button>
