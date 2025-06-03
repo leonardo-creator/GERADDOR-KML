@@ -16,7 +16,7 @@ export const EXCEL_CONFIG = {
   },
   
   // Tamanho máximo do arquivo (10MB)
-  MAX_FILE_SIZE: 10 * 1024 * 1024,
+  MAX_FILE_SIZE: 100 * 1024 * 1024,
   
   // Número máximo de linhas processadas
   MAX_ROWS: 10000000,
